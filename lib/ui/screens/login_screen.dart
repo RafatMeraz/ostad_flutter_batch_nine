@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:ostad_flutter_batch_nine/ui/screens/forgot_password_verify_email_screen.dart';
+import 'package:ostad_flutter_batch_nine/ui/screens/main_bottom_nav_screen.dart';
 import 'package:ostad_flutter_batch_nine/ui/screens/register_screen.dart';
 import 'package:ostad_flutter_batch_nine/ui/widgets/screen_background.dart';
 
@@ -50,7 +51,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 const SizedBox(height: 16),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: _onTapSignInButton,
                   child: const Icon(Icons.arrow_circle_right_outlined),
                 ),
                 const SizedBox(height: 32),
@@ -90,6 +91,16 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
         ),
       ),
+    );
+  }
+
+  void _onTapSignInButton() {
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const MainBottomNavScreen(),
+      ),
+      (predicate) => false,
     );
   }
 
