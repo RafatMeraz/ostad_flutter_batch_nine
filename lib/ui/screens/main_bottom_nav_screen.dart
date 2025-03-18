@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:ostad_flutter_batch_nine/ui/screens/cancelled_task_screen.dart';
+import 'package:ostad_flutter_batch_nine/ui/screens/completed_task_screen.dart';
 import 'package:ostad_flutter_batch_nine/ui/screens/new_task_screen.dart';
 import 'package:ostad_flutter_batch_nine/ui/screens/progress_task_screen.dart';
 import 'package:ostad_flutter_batch_nine/ui/widgets/tm_app_bar.dart';
@@ -13,11 +15,11 @@ class MainBottomNavScreen extends StatefulWidget {
 class _MainBottomNavScreenState extends State<MainBottomNavScreen> {
   int _selectedIndex = 0;
 
-  final List<Widget> _screens = [
+  final List<Widget> _screens = const [
     NewTaskScreen(),
     ProgressTaskScreen(),
-    NewTaskScreen(),
-    NewTaskScreen(),
+    CompletedTaskScreen(),
+    CancelledTaskScreen(),
   ];
 
   @override

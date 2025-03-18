@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ostad_flutter_batch_nine/ui/screens/add_new_task_screen.dart';
 import 'package:ostad_flutter_batch_nine/ui/widgets/summary_card.dart';
 import 'package:ostad_flutter_batch_nine/ui/widgets/task_card.dart';
 
@@ -22,7 +23,7 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
               primary: false,
               shrinkWrap: true,
               itemBuilder: (context, index) {
-                return const TaskCard();
+                return const TaskCard(taskStatus: TaskStatus.sNew);
               },
               separatorBuilder: (context, index) => const SizedBox(height: 8),
             )
@@ -30,8 +31,17 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: _onTapAddNewTask,
         child: const Icon(Icons.add),
+      ),
+    );
+  }
+
+  void _onTapAddNewTask() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const AddNewTaskScreen(),
       ),
     );
   }
