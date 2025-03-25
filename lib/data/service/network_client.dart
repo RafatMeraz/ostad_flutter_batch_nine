@@ -7,7 +7,7 @@ class NetworkResponse {
   final bool isSuccess;
   final int statusCode;
   final Map<String, dynamic>? data;
-  final String? errorMessage;
+  final String errorMessage;
 
   NetworkResponse({
     required this.isSuccess,
@@ -34,8 +34,12 @@ class NetworkClient {
             statusCode: response.statusCode,
             data: decodedJson);
       } else {
+        final decodedJson = jsonDecode(response.body);
+        String errorMessage = decodedJson['data'] ?? 'Something went wrong';
         return NetworkResponse(
-            isSuccess: false, statusCode: response.statusCode);
+            isSuccess: false,
+            statusCode: response.statusCode,
+            errorMessage: errorMessage);
       }
     } catch (e) {
       _postRequestLog(url, -1);
@@ -63,8 +67,12 @@ class NetworkClient {
             statusCode: response.statusCode,
             data: decodedJson);
       } else {
+        final decodedJson = jsonDecode(response.body);
+        String errorMessage = decodedJson['data'] ?? 'Something went wrong';
         return NetworkResponse(
-            isSuccess: false, statusCode: response.statusCode);
+            isSuccess: false,
+            statusCode: response.statusCode,
+            errorMessage: errorMessage);
       }
     } catch (e) {
       _postRequestLog(url, -1, errorMessage: e.toString());
