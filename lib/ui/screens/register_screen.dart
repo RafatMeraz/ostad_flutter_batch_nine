@@ -3,6 +3,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:ostad_flutter_batch_nine/data/service/network_client.dart';
 import 'package:ostad_flutter_batch_nine/data/utils/urls.dart';
+import 'package:ostad_flutter_batch_nine/ui/widgets/centered_circular_progress_indicator.dart';
 import 'package:ostad_flutter_batch_nine/ui/widgets/screen_background.dart';
 import 'package:ostad_flutter_batch_nine/ui/widgets/snack_bar_message.dart';
 
@@ -117,9 +118,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   const SizedBox(height: 16),
                   Visibility(
                     visible: _registrationInProgress == false,
-                    replacement: const Center(
-                      child: CircularProgressIndicator(),
-                    ),
+                    replacement: const CenteredCircularProgressIndicator(),
                     child: ElevatedButton(
                       onPressed: _onTapSubmitButton,
                       child: const Icon(Icons.arrow_circle_right_outlined),
@@ -181,10 +180,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
     _registrationInProgress = false;
     setState(() {});
     if (response.isSuccess) {
+      _clearTextFields();
       showSnackBarMessage(context, 'User registered successfully!');
     } else {
       showSnackBarMessage(context, response.errorMessage, true);
     }
+  }
+
+  void _clearTextFields() {
+    _emailTEController.clear();
+    _firstNameTEController.clear();
+    _lastNameTEController.clear();
+    _mobileTEController.clear();
+    _passwordTEController.clear();
   }
 
   void _onTapSignInButton() {
