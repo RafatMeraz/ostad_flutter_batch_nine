@@ -1,7 +1,9 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:ostad_flutter_batch_nine/data/models/login_model.dart';
 import 'package:ostad_flutter_batch_nine/data/service/network_client.dart';
 import 'package:ostad_flutter_batch_nine/data/utils/urls.dart';
+import 'package:ostad_flutter_batch_nine/ui/controllers/auth_controller.dart';
 import 'package:ostad_flutter_batch_nine/ui/screens/forgot_password_verify_email_screen.dart';
 import 'package:ostad_flutter_batch_nine/ui/screens/main_bottom_nav_screen.dart';
 import 'package:ostad_flutter_batch_nine/ui/screens/register_screen.dart';
@@ -125,6 +127,9 @@ class _LoginScreenState extends State<LoginScreen> {
     _loginInProgress = false;
     setState(() {});
     if (response.isSuccess) {
+      LoginModel loginModel = LoginModel.fromJson(response.data!);
+      AuthController.saveUserInformation(loginModel.token, loginModel.userModel);
+
       Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(
