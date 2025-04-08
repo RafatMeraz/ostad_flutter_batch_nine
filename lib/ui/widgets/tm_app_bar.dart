@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:ostad_flutter_batch_nine/ui/controllers/auth_controller.dart';
+import 'package:ostad_flutter_batch_nine/ui/screens/login_screen.dart';
 import 'package:ostad_flutter_batch_nine/ui/screens/update_profile_screen.dart';
 
 class TMAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -33,19 +35,21 @@ class TMAppBar extends StatelessWidget implements PreferredSizeWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Rahim Hasan',
+                    AuthController.userModel?.fulName ?? 'Unknown',
                     style: textTheme.bodyLarge?.copyWith(
                       color: Colors.white,
                     ),
                   ),
                   Text(
-                    'rahim@gmail.com',
+                    AuthController.userModel?.email ?? 'Unknown',
                     style: textTheme.bodySmall?.copyWith(color: Colors.white),
                   ),
                 ],
               ),
             ),
-            IconButton(onPressed: () {}, icon: const Icon(Icons.logout))
+            IconButton(
+                onPressed: () => _onTapLogOutButton(context),
+                icon: const Icon(Icons.logout))
           ],
         ),
       ),
@@ -55,6 +59,16 @@ class TMAppBar extends StatelessWidget implements PreferredSizeWidget {
   void _onTapProfileSection(BuildContext context) {
     Navigator.push(context,
       MaterialPageRoute(builder: (context) => const UpdateProfileScreen(),),);
+  }
+
+  Future<void> _onTapLogOutButton(BuildContext context) async {
+    await AuthController.clearUserData();
+    Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const LoginScreen(),
+        ),
+        (predicate) => false);
   }
 
   @override

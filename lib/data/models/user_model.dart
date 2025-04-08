@@ -47,6 +47,10 @@ class UserModel {
       'createdDate': createdDate,
     };
   }
+
+  String get fulName {
+    return '$firstName $lastName';
+  }
 }
 
 // class UserModel {
