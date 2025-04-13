@@ -15,9 +15,9 @@ class _ProgressTaskScreenState extends State<ProgressTaskScreen> {
       body: ListView.separated(
         itemCount: 6,
         itemBuilder: (context, index) {
-          return const TaskCard(
-            taskStatus: TaskStatus.progress,
-          );
+          // return const TaskCard(
+          //   taskStatus: TaskStatus.progress,
+          // );
         },
         separatorBuilder: (context, index) => const SizedBox(height: 8),
       ),
