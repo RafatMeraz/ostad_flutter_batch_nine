@@ -64,8 +64,13 @@ class _TaskCardState extends State<TaskCard> {
                   replacement: const CenteredCircularProgressIndicator(),
                   child: Row(
                     children: [
-                      IconButton(onPressed: () {}, icon: const Icon(Icons.delete)),
-                      IconButton(onPressed: _showUpdateStatusDialog, icon: const Icon(Icons.edit)),
+                      IconButton(
+                        onPressed: _deleteTask,
+                        icon: const Icon(Icons.delete),
+                      ),
+                      IconButton(
+                          onPressed: _showUpdateStatusDialog,
+                          icon: const Icon(Icons.edit)),
                     ],
                   ),
                 )
@@ -160,6 +165,21 @@ class _TaskCardState extends State<TaskCard> {
     setState(() {});
     final NetworkResponse response = await NetworkClient.getRequest(
         url: Urls.updateTaskStatusUrl(widget.taskModel.id, status));
+
+    _inProgress = false;
+    if (response.isSuccess) {
+      widget.refreshList();
+    } else {
+      setState(() {});
+      showSnackBarMessage(context, response.errorMessage, true);
+    }
+  }
+
+  Future<void> _deleteTask() async {
+    _inProgress = true;
+    setState(() {});
+    final NetworkResponse response = await NetworkClient.getRequest(
+        url: Urls.deleteTaskUrl(widget.taskModel.id));
 
     _inProgress = false;
     if (response.isSuccess) {
