@@ -36,6 +36,7 @@ class _ProgressTaskScreenState extends State<ProgressTaskScreen> {
             return TaskCard(
               taskStatus: TaskStatus.progress,
               taskModel: _progressTaskList[index],
+              refreshList: _getAllProgressTaskList,
             );
           },
           separatorBuilder: (context, index) => const SizedBox(height: 8),
