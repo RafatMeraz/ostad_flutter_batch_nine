@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:ostad_flutter_batch_nine/counter_controller.dart';
+import 'home_screen.dart';
+
 
 void main() {
   runApp(const CounterApp());
@@ -10,80 +13,17 @@ class CounterApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: HomeScreen(),
+    return GetMaterialApp(
+      home: const HomeScreen(),
+      initialBinding: ControllerBinder(),
     );
   }
 }
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
-
+class ControllerBinder extends Bindings {
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
-  CounterController counterController = CounterController();
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Home'),
-      ),
-      body: Center(
-        child: GetBuilder(
-          init: counterController,
-          builder: (controller) {
-            return Text(
-              '${counterController.count}',
-              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
-            );
-          },
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          counterController.incrementCount();
-        },
-        child: const Icon(Icons.add),
-      ),
-    );
+  void dependencies() {
+    Get.lazyPut(() => CounterController());
   }
 }
 
-// class ProfileScreen extends StatelessWidget {
-//   const ProfileScreen({super.key, required this.counterController});
-//
-//   final CounterController counterController;
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: const Text('Profile'),
-//       ),
-//       body: Center(
-//         child: Text(''),
-//       ),
-//     );
-//   }
-// }
-
-// class CounterController {
-//   RxInt count = 0.obs;
-//
-//   void incrementCount() {
-//     count++;
-//   }
-// }
-
-class CounterController extends GetxController {
-  int count = 0;
-
-  void incrementCount() {
-    count++;
-    update();
-  }
-}
