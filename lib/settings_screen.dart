@@ -1,22 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:ostad_flutter_batch_nine/home_screen.dart';
 
 import 'counter_controller.dart';
 import 'main.dart';
 
-class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({super.key});
+class SettingsScreen extends StatefulWidget {
+  const SettingsScreen({super.key});
 
   @override
-  State<ProfileScreen> createState() => _ProfileScreenState();
+  State<SettingsScreen> createState() => _SettingsScreenState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen> {
+class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Profile'),
+        title: const Text('Settings'),
       ),
       body: Center(
         child: Column(
@@ -26,12 +27,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
             }),
             TextButton(
               onPressed: () {
-                // Navigator.pop(context, 'data');
-                // Get.back(result: 'data');
-                Get.back();
+                // Navigator.pushAndRemoveUntil(
+                //   context,
+                //   MaterialPageRoute(builder: (context) => const HomeScreen()),
+                //   (predicate) => false,
+                // );
+                Get.offAll(const HomeScreen(), predicate: (_) => false);
               },
-              child: const Text('Back'),
-            )
+              child: const Text('Go to Home'),
+            ),
           ],
         ),
       ),
