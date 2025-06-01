@@ -1,7 +1,10 @@
+import 'package:crafty_bay/app/app_colors.dart';
 import 'package:crafty_bay/app/asset_paths.dart';
 import 'package:crafty_bay/features/home/ui/widgets/app_bar_icon_button.dart';
 import 'package:crafty_bay/features/home/ui/widgets/home_carousel_slider.dart';
+import 'package:crafty_bay/features/common/ui/widgets/product_category_item.dart';
 import 'package:crafty_bay/features/home/ui/widgets/product_search_bar.dart';
+import 'package:crafty_bay/features/product/ui/screens/product_category_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -29,8 +32,10 @@ class _HomeScreenState extends State<HomeScreen> {
               const SizedBox(height: 16),
               HomeCarouselSlider(),
               const SizedBox(height: 16),
-              _buildSectionHeader(title: 'Categories', onTapSeeAll: () {}),
-
+              _buildSectionHeader(title: 'Categories', onTapSeeAll: () {
+                Navigator.pushNamed(context, ProductCategoryScreen.name);
+              }),
+              _getCategoryList(),
               _buildSectionHeader(title: 'Popular', onTapSeeAll: () {}),
               _buildSectionHeader(title: 'Special', onTapSeeAll: () {}),
               _buildSectionHeader(title: 'New', onTapSeeAll: () {}),
@@ -62,6 +67,20 @@ class _HomeScreenState extends State<HomeScreen> {
         Text(title, style: Theme.of(context).textTheme.titleSmall),
         TextButton(onPressed: onTapSeeAll, child: Text('See all')),
       ],
+    );
+  }
+
+  Widget _getCategoryList() {
+    return SizedBox(
+      height: 100,
+      child: ListView.separated(
+        scrollDirection: Axis.horizontal,
+        itemCount: 10,
+        itemBuilder: (context, index) {
+          return ProductCategoryItem();
+        },
+        separatorBuilder: (context, index) => const SizedBox(width: 8),
+      ),
     );
   }
 }
