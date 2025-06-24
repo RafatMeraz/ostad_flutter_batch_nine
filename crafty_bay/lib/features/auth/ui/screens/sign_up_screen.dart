@@ -1,6 +1,11 @@
+import 'package:crafty_bay/core/ui/widgets/centered_circular_progress_indicator.dart';
+import 'package:crafty_bay/core/ui/widgets/snack_bar_message.dart';
+import 'package:crafty_bay/features/auth/data/models/sign_up_request_model.dart';
+import 'package:crafty_bay/features/auth/ui/controller/sign_up_controller.dart';
 import 'package:crafty_bay/features/auth/ui/widgets/app_logo.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -20,6 +25,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController _addressTEController = TextEditingController();
   final TextEditingController _passwordTEController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final SignUpController _signUpController = Get.find<SignUpController>();
 
   @override
   Widget build(BuildContext context) {
@@ -123,8 +129,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     textInputAction: TextInputAction.done,
                     maxLines: 3,
                     decoration: InputDecoration(
-                        contentPadding: EdgeInsets.all(16),
-                        hintText: 'Shipping Address'),
+                      contentPadding: EdgeInsets.all(16),
+                      hintText: 'Shipping Address',
+                    ),
                     validator: (String? value) {
                       if (value?.trim().isEmpty ?? true) {
                         return 'Enter your full address';
@@ -133,9 +140,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     },
                   ),
                   const SizedBox(height: 16),
-                  ElevatedButton(
-                    onPressed: _onTapLoginButton,
-                    child: Text('Sign Up'),
+                  GetBuilder<SignUpController>(
+                    builder: (_) {
+                      return Visibility(
+                        visible: _signUpController.inProgress == false,
+                        replacement: CenteredCircularProgressIndicator(),
+                        child: ElevatedButton(
+                          onPressed: _onTapSignUpButton,
+                          child: Text('Sign Up'),
+                        ),
+                      );
+                    },
                   ),
                   const SizedBox(height: 32),
                 ],
@@ -147,7 +162,36 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 
-  void _onTapLoginButton() {
-    if (_formKey.currentState!.validate()) {}
+  Future<void> _onTapSignUpButton() async {
+    if (_formKey.currentState!.validate()) {
+      final SignUpRequestModel model = SignUpRequestModel(
+        email: _emailTEController.text.trim(),
+        firstName: _firstNameTEController.text.trim(),
+        lastName: _lastNameTEController.text.trim(),
+        password: _passwordTEController.text,
+        city: _cityTEController.text.trim(),
+        phone: _mobileTEController.text.trim(),
+      );
+      final bool isSuccess = await _signUpController.signUp(model);
+      if (isSuccess) {
+        // TODO: Navigate to verify otp screen
+        // Navigator.pushNamed(context, Ver)
+        showSnackBarMessage(context, _signUpController.message);
+      } else {
+        showSnackBarMessage(context, _signUpController.errorMessage!, true);
+      }
+    }
+  }
+
+  @override
+  void dispose() {
+    _emailTEController.dispose();
+    _firstNameTEController.dispose();
+    _lastNameTEController.dispose();
+    _mobileTEController.dispose();
+    _passwordTEController.dispose();
+    _cityTEController.dispose();
+    _addressTEController.dispose();
+    super.dispose();
   }
 }

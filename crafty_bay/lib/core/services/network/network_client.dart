@@ -24,24 +24,31 @@ class NetworkClient {
       if (response.statusCode == 200 || response.statusCode == 201) {
         final responseBody = jsonDecode(response.body);
         return NetworkResponse(
+          isSuccess: true,
           statusCode: response.statusCode,
           responseData: responseBody,
         );
       } else if (response.statusCode == 401) {
         onUnAuthorize();
         return NetworkResponse(
+          isSuccess: false,
           statusCode: response.statusCode,
           errorMessage: 'Un-authorize',
         );
       } else {
         final responseBody = jsonDecode(response.body);
         return NetworkResponse(
+          isSuccess: false,
           statusCode: response.statusCode,
-          responseData: responseBody['message'] ?? _defaultErrorMessage,
+          errorMessage: responseBody['msg'] ?? _defaultErrorMessage,
         );
       }
     } on Exception catch (e) {
-      return NetworkResponse(statusCode: -1, errorMessage: e.toString());
+      return NetworkResponse(
+        isSuccess: false,
+        statusCode: -1,
+        errorMessage: e.toString(),
+      );
     }
   }
 
@@ -51,7 +58,7 @@ class NetworkClient {
   }) async {
     try {
       Uri uri = Uri.parse(url);
-      _logRequest(url, headers: commonHeaders); // LOG REQUEST
+      _logRequest(url, headers: commonHeaders, body: body); // LOG REQUEST
       final Response response = await post(
         uri,
         headers: commonHeaders,
@@ -61,24 +68,31 @@ class NetworkClient {
       if (response.statusCode == 200 || response.statusCode == 201) {
         final responseBody = jsonDecode(response.body);
         return NetworkResponse(
+          isSuccess: true,
           statusCode: response.statusCode,
           responseData: responseBody,
         );
       } else if (response.statusCode == 401) {
         onUnAuthorize();
         return NetworkResponse(
+          isSuccess: false,
           statusCode: response.statusCode,
           errorMessage: 'Un-authorize',
         );
       } else {
         final responseBody = jsonDecode(response.body);
         return NetworkResponse(
+          isSuccess: false,
           statusCode: response.statusCode,
-          responseData: responseBody['message'] ?? _defaultErrorMessage,
+          errorMessage: responseBody['msg'] ?? _defaultErrorMessage,
         );
       }
     } on Exception catch (e) {
-      return NetworkResponse(statusCode: -1, errorMessage: e.toString());
+      return NetworkResponse(
+        isSuccess: false,
+        statusCode: -1,
+        errorMessage: e.toString(),
+      );
     }
   }
 
@@ -98,24 +112,31 @@ class NetworkClient {
       if (response.statusCode == 200 || response.statusCode == 201) {
         final responseBody = jsonDecode(response.body);
         return NetworkResponse(
+          isSuccess: true,
           statusCode: response.statusCode,
           responseData: responseBody,
         );
       } else if (response.statusCode == 401) {
         onUnAuthorize();
         return NetworkResponse(
+          isSuccess: false,
           statusCode: response.statusCode,
           errorMessage: 'Un-authorize',
         );
       } else {
         final responseBody = jsonDecode(response.body);
         return NetworkResponse(
+          isSuccess: false,
           statusCode: response.statusCode,
-          responseData: responseBody['message'] ?? _defaultErrorMessage,
+          errorMessage: responseBody['msg'] ?? _defaultErrorMessage,
         );
       }
     } on Exception catch (e) {
-      return NetworkResponse(statusCode: -1, errorMessage: e.toString());
+      return NetworkResponse(
+        isSuccess: false,
+        statusCode: -1,
+        errorMessage: e.toString(),
+      );
     }
   }
 
@@ -135,24 +156,31 @@ class NetworkClient {
       if (response.statusCode == 200 || response.statusCode == 201) {
         final responseBody = jsonDecode(response.body);
         return NetworkResponse(
+          isSuccess: true,
           statusCode: response.statusCode,
           responseData: responseBody,
         );
       } else if (response.statusCode == 401) {
         onUnAuthorize();
         return NetworkResponse(
+          isSuccess: false,
           statusCode: response.statusCode,
           errorMessage: 'Un-authorize',
         );
       } else {
         final responseBody = jsonDecode(response.body);
         return NetworkResponse(
+          isSuccess: false,
           statusCode: response.statusCode,
-          responseData: responseBody['message'] ?? _defaultErrorMessage,
+          errorMessage: responseBody['msg'] ?? _defaultErrorMessage,
         );
       }
     } on Exception catch (e) {
-      return NetworkResponse(statusCode: -1, errorMessage: e.toString());
+      return NetworkResponse(
+        isSuccess: false,
+        statusCode: -1,
+        errorMessage: e.toString(),
+      );
     }
   }
 
@@ -172,31 +200,38 @@ class NetworkClient {
       if (response.statusCode == 200 || response.statusCode == 201) {
         final responseBody = jsonDecode(response.body);
         return NetworkResponse(
+          isSuccess: true,
           statusCode: response.statusCode,
           responseData: responseBody,
         );
       } else if (response.statusCode == 401) {
         onUnAuthorize();
         return NetworkResponse(
+          isSuccess: false,
           statusCode: response.statusCode,
           errorMessage: 'Un-authorize',
         );
       } else {
         final responseBody = jsonDecode(response.body);
         return NetworkResponse(
+          isSuccess: false,
           statusCode: response.statusCode,
-          responseData: responseBody['message'] ?? _defaultErrorMessage,
+          errorMessage: responseBody['msg'] ?? _defaultErrorMessage,
         );
       }
     } on Exception catch (e) {
-      return NetworkResponse(statusCode: -1, errorMessage: e.toString());
+      return NetworkResponse(
+        isSuccess: false,
+        statusCode: -1,
+        errorMessage: e.toString(),
+      );
     }
   }
 
   void _logRequest(
     String url, {
     Map<String, String>? headers,
-    Map<String, String>? body,
+    Map<String, dynamic>? body,
   }) {
     final String message = '''
     URL -> $url
