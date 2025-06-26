@@ -1,6 +1,8 @@
 import 'package:crafty_bay/app/urls.dart';
 import 'package:crafty_bay/core/services/network/network_client.dart';
 import 'package:crafty_bay/features/auth/data/models/verify_otp_request_model.dart';
+import 'package:crafty_bay/features/common/controllers/auth_controller.dart';
+import 'package:crafty_bay/features/common/models/user_model.dart';
 import 'package:get/get.dart';
 
 class VerifyOtpController extends GetxController {
@@ -8,14 +10,10 @@ class VerifyOtpController extends GetxController {
 
   String? _errorMessage;
 
-
   bool get inProgress => _inProgress;
 
   String? get errorMessage => _errorMessage;
 
-  // TODO: Data class
-
-  // Actual method
   Future<bool> verifyOtp(VerifyOtpRequestModel model) async {
     bool isSuccess = false;
     _inProgress = true;
@@ -23,7 +21,10 @@ class VerifyOtpController extends GetxController {
     final NetworkResponse response = await Get.find<NetworkClient>()
         .postRequest(Urls.verifyOtpUrl, body: model.toJson());
     if (response.isSuccess) {
-      // Save user data
+      await Get.find<AuthController>().saveUserData(
+        response.responseData!['data']['token'],
+        UserModel.fromJson(response.responseData!['data']['user']),
+      );
       isSuccess = true;
       _errorMessage = null;
     } else {
