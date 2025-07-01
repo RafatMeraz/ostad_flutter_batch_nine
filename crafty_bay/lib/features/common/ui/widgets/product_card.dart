@@ -1,18 +1,21 @@
 import 'package:crafty_bay/app/app_colors.dart';
 import 'package:crafty_bay/app/asset_paths.dart';
 import 'package:crafty_bay/app/constants.dart';
+import 'package:crafty_bay/features/common/models/product_model.dart';
 import 'package:crafty_bay/features/product/ui/screens/product_details_screen.dart';
 import 'package:flutter/material.dart';
 
 class ProductCard extends StatelessWidget {
-  const ProductCard({super.key});
+  const ProductCard({super.key, required this.productModel});
+
+  final ProductModel productModel;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
         Navigator.pushNamed(
-            context, ProductDetailsScreen.name, arguments: '123');
+            context, ProductDetailsScreen.name, arguments: productModel.id);
       },
       child: Container(
         width: 140,
@@ -40,14 +43,14 @@ class ProductCard extends StatelessWidget {
                 ),
               ),
               padding: EdgeInsets.all(16),
-              child: Image.asset(AssetPaths.dummyNikeShoePng, height: 80),
+              child: Image.network(productModel.photoUrls.first, height: 80),
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(
                 children: [
                   Text(
-                    'Nike ER345T - New model of 2025',
+                    productModel.title,
                     maxLines: 1,
                     style: TextStyle(
                       overflow: TextOverflow.ellipsis,
@@ -59,7 +62,7 @@ class ProductCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        '${Constants.takaSign}100',
+                        '${Constants.takaSign}${productModel.currentPrice}',
                         style: TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.w600,

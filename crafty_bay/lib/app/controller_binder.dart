@@ -7,6 +7,7 @@ import 'package:crafty_bay/features/common/controllers/auth_controller.dart';
 import 'package:crafty_bay/features/common/controllers/category_list_controller.dart';
 import 'package:crafty_bay/features/common/ui/controllers/main_bottom_nav_controller.dart';
 import 'package:crafty_bay/features/home/ui/controllers/home_slider_controller.dart';
+import 'package:crafty_bay/features/product/controllers/product_list_category_controller.dart';
 import 'package:get/get.dart';
 
 class ControllerBinder extends Bindings {
