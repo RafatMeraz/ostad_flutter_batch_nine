@@ -1,6 +1,8 @@
 import 'package:crafty_bay/features/auth/ui/widgets/app_logo.dart';
+import 'package:crafty_bay/features/common/controllers/auth_controller.dart';
 import 'package:crafty_bay/features/common/ui/screens/main_bottom_nav_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -20,6 +22,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   Future<void> _moveToHomeScreen() async {
     await Future.delayed(Duration(seconds: 2));
+    await Get.find<AuthController>().getUserData();
     Navigator.pushReplacementNamed(context, MainBottomNavScreen.name);
   }
 

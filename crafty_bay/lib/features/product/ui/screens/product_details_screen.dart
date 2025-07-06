@@ -1,8 +1,10 @@
 import 'package:crafty_bay/app/app_colors.dart';
 import 'package:crafty_bay/app/constants.dart';
 import 'package:crafty_bay/core/ui/widgets/centered_circular_progress_indicator.dart';
+import 'package:crafty_bay/core/ui/widgets/snack_bar_message.dart';
 import 'package:crafty_bay/features/auth/ui/screens/login_screen.dart';
 import 'package:crafty_bay/features/common/controllers/auth_controller.dart';
+import 'package:crafty_bay/features/product/controllers/add_to_cart_controller.dart';
 import 'package:crafty_bay/features/product/controllers/product_details_controller.dart';
 import 'package:crafty_bay/features/product/data/models/product_details_model.dart';
 import 'package:crafty_bay/features/product/ui/widgets/color_picker.dart';
@@ -27,6 +29,8 @@ class ProductDetailsScreen extends StatefulWidget {
 class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   final ProductDetailsController _productDetailsController =
       ProductDetailsController();
+  final AddToCartController _addToCartController = Get.find<
+      AddToCartController>();
 
   @override
   void initState() {
@@ -210,8 +214,17 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
           ),
           SizedBox(
             width: 120,
-            child: ElevatedButton(
-              onPressed: _onTapAddToCartButton, child: Text('Add to Cart'),
+            child: GetBuilder(
+              init: _addToCartController,
+              builder: (_) {
+                return Visibility(
+                  visible: _addToCartController.inProgress == false,
+                  replacement: CenteredCircularProgressIndicator(),
+                  child: ElevatedButton(
+                    onPressed: _onTapAddToCartButton, child: Text('Add to Cart'),
+                  ),
+                );
+              }
             ),
           ),
         ],
@@ -221,7 +234,12 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
 
   Future<void> _onTapAddToCartButton() async {
     if (await Get.find<AuthController>().isUserLoggedIn()) {
-      // TODO: Add to cart
+      final bool result = await _addToCartController.addToCart(widget.productId);
+      if (result) {
+        showSnackBarMessage(context, 'Added to cart');
+      } else {
+        showSnackBarMessage(context, _addToCartController.errorMessage!);
+      }
     } else {
       Navigator.pushNamed(context, LoginScreen.name);
     }
