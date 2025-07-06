@@ -4,6 +4,7 @@ import 'package:crafty_bay/features/common/controllers/category_list_controller.
 import 'package:crafty_bay/features/common/ui/controllers/main_bottom_nav_controller.dart';
 import 'package:crafty_bay/features/common/ui/widgets/product_card.dart';
 import 'package:crafty_bay/features/home/ui/controllers/home_slider_controller.dart';
+import 'package:crafty_bay/features/home/ui/controllers/popular_product_list_controller.dart';
 import 'package:crafty_bay/features/home/ui/widgets/app_bar_icon_button.dart';
 import 'package:crafty_bay/features/home/ui/widgets/home_carousel_slider.dart';
 import 'package:crafty_bay/features/common/ui/widgets/product_category_item.dart';
@@ -68,12 +69,22 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _getPopularProducts() {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Row(
-        spacing: 8,
-        // children: [1, 2, 3, 4].map((e) => ProductCard()).toList(),
-      ),
+    return GetBuilder<PopularProductController>(
+      builder: (popularProductController) {
+        return Visibility(
+          visible: popularProductController.inProgress == false,
+          replacement: CenteredCircularProgressIndicator(),
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              spacing: 8,
+              children: popularProductController.productModelList.map((
+                  product) => ProductCard(productModel: product,),
+              ).toList(),
+            ),
+          ),
+        );
+      }
     );
   }
 
