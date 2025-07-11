@@ -1,5 +1,7 @@
 import 'package:crafty_bay/app/app_colors.dart';
 import 'package:crafty_bay/app/constants.dart';
+import 'package:crafty_bay/core/ui/widgets/centered_circular_progress_indicator.dart';
+import 'package:crafty_bay/features/cart/ui/controllers/cart_list_controller.dart';
 import 'package:crafty_bay/features/cart/ui/widgets/cart_item.dart';
 import 'package:crafty_bay/features/common/ui/controllers/main_bottom_nav_controller.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +15,16 @@ class CartScreen extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartScreen> {
+  final CartListController _cartListController = Get.find<CartListController>();
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _cartListController.getCartItemList();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return PopScope(
@@ -28,22 +40,38 @@ class _CartScreenState extends State<CartScreen> {
             icon: Icon(Icons.arrow_back_ios),
           ),
         ),
-        body: Column(
-          children: [
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: ListView.separated(
-                  itemCount: 12,
-                  itemBuilder: (context, index) {
-                    return CartItem();
-                  },
-                  separatorBuilder: (_, __) => const SizedBox(height: 4),
+        body: GetBuilder(
+          init: _cartListController,
+          builder: (_) {
+            if (_cartListController.inProgress) {
+              return const CenteredCircularProgressIndicator();
+            }
+            if (_cartListController.errorMessage != null) {
+              return Center(
+                child: Text(_cartListController.errorMessage!),
+              );
+            }
+
+            return Column(
+              children: [
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: ListView.separated(
+                      itemCount: _cartListController.cartItemList.length,
+                      itemBuilder: (context, index) {
+                        return CartItem(
+                          cartItemModel: _cartListController.cartItemList[index],
+                        );
+                      },
+                      separatorBuilder: (_, __) => const SizedBox(height: 4),
+                    ),
+                  ),
                 ),
-              ),
-            ),
-            _buildPriceAndCheckoutSection(),
-          ],
+                _buildPriceAndCheckoutSection(),
+              ],
+            );
+          }
         ),
       ),
     );
@@ -67,7 +95,7 @@ class _CartScreenState extends State<CartScreen> {
             children: [
               Text('Total Price', style: Theme.of(context).textTheme.bodyLarge),
               Text(
-                '${Constants.takaSign}100',
+                '${Constants.takaSign}${_cartListController.totalPrice}',
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.w700,
