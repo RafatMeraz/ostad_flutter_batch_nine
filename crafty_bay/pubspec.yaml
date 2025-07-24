@@ -23,6 +23,8 @@ dependencies:
   shared_preferences: ^2.5.3
   network_caller:
     path: ../network_caller
+  sample_plugin:
+    path: ../sample_plugin
 
 dev_dependencies:
   flutter_test:
