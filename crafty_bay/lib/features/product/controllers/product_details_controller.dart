@@ -1,7 +1,7 @@
 import 'package:crafty_bay/app/urls.dart';
-import 'package:crafty_bay/core/services/network/network_client.dart';
 import 'package:crafty_bay/features/product/data/models/product_details_model.dart';
 import 'package:get/get.dart';
+import 'package:network_caller/network_caller.dart';
 
 class ProductDetailsController extends GetxController {
   bool _inProgress = false;

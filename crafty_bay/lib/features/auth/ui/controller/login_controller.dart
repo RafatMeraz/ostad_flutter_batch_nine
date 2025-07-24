@@ -1,9 +1,9 @@
 import 'package:crafty_bay/app/urls.dart';
-import 'package:crafty_bay/core/services/network/network_client.dart';
 import 'package:crafty_bay/features/auth/data/models/login_request_model.dart';
 import 'package:crafty_bay/features/common/controllers/auth_controller.dart';
 import 'package:crafty_bay/features/common/models/user_model.dart';
 import 'package:get/get.dart';
+import 'package:network_caller/network_caller.dart';
 
 class LoginController extends GetxController {
   bool _inProgress = false;

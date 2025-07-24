@@ -1,6 +1,6 @@
 import 'package:crafty_bay/app/urls.dart';
-import 'package:crafty_bay/core/services/network/network_client.dart';
 import 'package:get/get.dart';
+import 'package:network_caller/network_caller.dart';
 
 class AddToCartController extends GetxController {
   bool _inProgress = false;

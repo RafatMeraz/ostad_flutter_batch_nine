@@ -1,7 +1,7 @@
 import 'package:crafty_bay/app/urls.dart';
-import 'package:crafty_bay/core/services/network/network_client.dart';
 import 'package:crafty_bay/features/common/models/product_model.dart';
 import 'package:get/get.dart';
+import 'package:network_caller/network_caller.dart';
 
 class ProductListByCategoryController extends GetxController {
   final int _count = 30;
